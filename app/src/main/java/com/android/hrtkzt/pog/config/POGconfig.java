@@ -105,4 +105,16 @@ public class POGconfig {
     private static final String ONE_MODE_NAME  = "one_mode";
     private static final String CLUB_NAME      = "club";
     private static final String UPDATE_NAME    = "updatetime";
+
+    public static String getPreferenceFileName() {
+        return PREFERENCE_FILE_NAME;
+    }
+
+    private static final String PREFERENCE_FILE_NAME = "horse_pref";
+
+    public static boolean isUpdateFlag() {
+        return UPDATE_FLAG;
+    }
+
+    private static final boolean UPDATE_FLAG = false;
 }

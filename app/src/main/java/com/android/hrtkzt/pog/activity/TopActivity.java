@@ -8,10 +8,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.hrtkzt.pog.R;
+import com.android.hrtkzt.pog.asynctask.InitAsyncTask;
+import com.android.hrtkzt.pog.config.POGPreference;
 import com.android.hrtkzt.pog.config.POGconfig;
 import com.android.hrtkzt.pog.database.POGDatabaseHelper;
 import com.android.hrtkzt.pog.util.Util;
@@ -20,6 +24,7 @@ import com.opencsv.CSVReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -27,39 +32,16 @@ public class TopActivity extends Activity {
 
     private final String TAG = TopActivity.class.getSimpleName();
 
-
-    private SQLiteDatabase rdb;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.top);
 
-        POGDatabaseHelper dbHelper = new POGDatabaseHelper(getApplicationContext());
-        rdb = dbHelper.getReadableDatabase();
+        Toast.makeText(this, "データを初期化しています", Toast.LENGTH_SHORT).show();
 
-        String selectSQL = "select * from horse_table;";
-        Cursor cursor = null;
-
-        try {
-            cursor = rdb.rawQuery(selectSQL, null);
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
-
-        String[] horseName = new String[10];
-        int i = 0;
-        cursor.moveToFirst();
-        do {
-            horseName[i] = cursor.getString(1);
-            i++;
-            if(i == 10) break;
-        }while(cursor.moveToNext());
-
-        // view
-        ListView lv = (ListView) findViewById(R.id.horseListView);
-        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.list_item, horseName);
-        lv.setAdapter(adapter);
+        View v = (View) findViewById(R.id.horseListView);
+        InitAsyncTask inittask = new InitAsyncTask(getApplicationContext(), v);
+        inittask.execute();
 
     }
 
