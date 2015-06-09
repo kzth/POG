@@ -25,7 +25,7 @@ public class POGDatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL(
                 "create table " + dbTableName + " ("+
-                        "   is_stable int not null," +
+                        "   is_stable text not null," +
                         "   name text not null," +
                         "   sex text not null," +
                         "   mother text not null," +
@@ -42,7 +42,9 @@ public class POGDatabaseHelper extends SQLiteOpenHelper {
                         "   mode text," +
                         "   one_mode text," +
                         "   club text," +
-                        "   updatetime text);"
+                        "   updatetime text," +
+                        "   _id integer primary key autoincrement" +
+                        ");"
         );
     }
 

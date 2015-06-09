@@ -5,8 +5,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.android.hrtkzt.pog.config.POGPreference;
 import com.android.hrtkzt.pog.config.POGconfig;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +19,8 @@ import java.util.Map;
  * Created by hirotakazuto on 15/06/08.
  */
 public class Util {
+
+    private static final String TAG = Util.class.getSimpleName();
 
     public static void logDebug(String tag, String debug) {
 
@@ -91,5 +97,44 @@ public class Util {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put(key, value);
         Util.putPreference(context, map);
+    }
+
+    public static boolean isFirstExec(Context context) {
+        String flag = getPreference(context, POGPreference.PREF_KEY_FIRST_EXEC);
+        if(flag != null && flag.equals("true")) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean putMyHorse(Context context, String id) {
+
+        List<String> ids = getMyHorse(context);
+
+        if(ids == null ||  ids.size() < 10) {
+            ids.add(id);
+
+            StringBuilder builder = new StringBuilder();
+
+            for(String str : ids) {
+                builder.append(str).append(",");
+            }
+
+            String result = builder.substring(0, builder.length() - 1);
+
+            put(context, POGPreference.PREF_KEY_MY_POG_HORSE, result);
+            return true;
+        }
+
+        return false;
+    }
+
+    public static List<String> getMyHorse(Context context) {
+
+        String idStr = Util.getPreference(context, POGPreference.PREF_KEY_MY_POG_HORSE);
+        String[] idStrArray = idStr.split(",");
+        List<String> ids = new ArrayList<String>(Arrays.asList(idStrArray));
+
+        return ids;
     }
 }

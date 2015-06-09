@@ -27,6 +27,7 @@ public class Horse {
     private String oneMode;
     private String club;
     private String update;
+    private int id;
 
     public Horse(Cursor c) {
         this.isStable = c.getString(0);
@@ -47,6 +48,7 @@ public class Horse {
         this.oneMode = c.getString(15);
         this.club = c.getString(16);
         this.update = c.getString(17);
+        this.id = c.getInt(18);
     }
 
     public String getIsStable() {
@@ -119,5 +121,9 @@ public class Horse {
 
     public String getUpdate() {
         return update;
+    }
+
+    public int getId() {
+        return id;
     }
 }

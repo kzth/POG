@@ -49,7 +49,7 @@ public class InitAsyncTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPreExecute() {
-        if(POGconfig.isUpdateFlag()){
+        if(POGconfig.isUpdateFlag() || Util.isFirstExec(mContext)){
             Toast.makeText(mContext, "データを初期化しています", Toast.LENGTH_SHORT).show();
         }
     }
@@ -57,7 +57,7 @@ public class InitAsyncTask extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... params) {
 
-        if(POGconfig.isUpdateFlag()){
+        if(POGconfig.isUpdateFlag() || Util.isFirstExec(mContext)){
 
             AssetManager assetManager = mContext.getResources().getAssets();
             InputStream is = null;
@@ -87,7 +87,7 @@ public class InitAsyncTask extends AsyncTask<Void, Void, String> {
     @Override
     public void onPostExecute(String params) {
 
-        if(POGconfig.isUpdateFlag()){
+        if(POGconfig.isUpdateFlag() || Util.isFirstExec(mContext)){
             Toast.makeText(mContext, "データの初期化が完了しました", Toast.LENGTH_SHORT).show();
         }
 

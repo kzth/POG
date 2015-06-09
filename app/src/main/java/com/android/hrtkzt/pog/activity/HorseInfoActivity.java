@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +17,7 @@ import com.android.hrtkzt.pog.R;
 import com.android.hrtkzt.pog.config.POGPreference;
 import com.android.hrtkzt.pog.database.POGDatabaseHelper;
 import com.android.hrtkzt.pog.element.Horse;
+import com.android.hrtkzt.pog.util.Util;
 
 import java.sql.SQLData;
 
@@ -22,6 +25,8 @@ import java.sql.SQLData;
  * Created by kazhirot on 6/9/15.
  */
 public class HorseInfoActivity extends Activity {
+
+    private final String TAG = HorseInfoActivity.class.getSimpleName();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,7 +44,7 @@ public class HorseInfoActivity extends Activity {
         POGDatabaseHelper dbHelper = new POGDatabaseHelper(getApplicationContext());
         SQLiteDatabase rdb = dbHelper.getReadableDatabase();
 
-        String selectSQL = "select * from horse_table where name=" + horseName + ";";
+        String selectSQL = "select * from horse_table where name='" + horseName + "';";
         Cursor cursor = null;
 
         try {
@@ -47,55 +52,82 @@ public class HorseInfoActivity extends Activity {
         }catch(Exception e) {
             e.printStackTrace();
         }
+        cursor.moveToFirst();
 
-        Horse horse = new Horse(cursor);
+        Util.logDebug(TAG, cursor.toString());
+
+        final Horse horse = new Horse(cursor);
         TextView nameText = (TextView) findViewById(R.id.horseName);
         nameText.setText(horse.getName());
 
-        TextView nameText = (TextView) findViewById(R.id.horseName);
-        nameText.setText(horse.getName());
+        TextView nameSex = (TextView) findViewById(R.id.horseSex);
+        nameSex.setText(horse.getSex());
 
-        TextView nameText = (TextView) findViewById(R.id.horseName);
-        nameText.setText(horse.getName());
+        TextView nameMother = (TextView) findViewById(R.id.horseMother);
+        nameMother.setText(horse.getMother());
 
-        TextView nameText = (TextView) findViewById(R.id.horseName);
-        nameText.setText(horse.getName());
+        TextView nameFather = (TextView) findViewById(R.id.horseFather);
+        nameFather.setText(horse.getFather());
 
-        TextView nameText = (TextView) findViewById(R.id.horseName);
-        nameText.setText(horse.getName());
+        TextView nameMotherFather = (TextView) findViewById(R.id.horseMotherFather);
+        nameMotherFather.setText(horse.getMotherFather());
 
-        TextView nameText = (TextView) findViewById(R.id.horseName);
-        nameText.setText(horse.getName());
+        TextView nameBrother = (TextView) findViewById(R.id.horseBrother);
+        nameBrother.setText(horse.getBrother());
 
-        TextView nameText = (TextView) findViewById(R.id.horseName);
-        nameText.setText(horse.getName());
+        TextView nameOwner = (TextView) findViewById(R.id.horseOwner);
+        nameOwner.setText(horse.getOwner());
 
-        TextView nameText = (TextView) findViewById(R.id.horseName);
-        nameText.setText(horse.getName());
+        TextView nameBelong = (TextView) findViewById(R.id.horseBelong);
+        nameBelong.setText(horse.getBelong());
 
-        TextView nameText = (TextView) findViewById(R.id.horseName);
-        nameText.setText(horse.getName());
+        TextView nameTrainer = (TextView) findViewById(R.id.horseTrainer);
+        nameTrainer.setText(horse.getTrainer());
 
-        TextView nameText = (TextView) findViewById(R.id.horseName);
-        nameText.setText(horse.getName());
+        TextView nameProducer = (TextView) findViewById(R.id.horseProducer);
+        nameProducer.setText(horse.getProducer());
 
-        TextView nameText = (TextView) findViewById(R.id.horseName);
-        nameText.setText(horse.getName());
+        TextView nameBirthday = (TextView) findViewById(R.id.horseBirthday);
+        nameBirthday.setText(horse.getBirthday());
 
-        TextView nameText = (TextView) findViewById(R.id.horseName);
-        nameText.setText(horse.getName());
+        TextView nameSale = (TextView) findViewById(R.id.horseSale);
+        nameSale.setText(horse.getSale());
 
-        TextView nameText = (TextView) findViewById(R.id.horseName);
-        nameText.setText(horse.getName());
+        TextView namePrice = (TextView) findViewById(R.id.horsePrice);
+        namePrice.setText(horse.getPrice());
 
-        TextView nameText = (TextView) findViewById(R.id.horseName);
-        nameText.setText(horse.getName());
+        TextView nameMode = (TextView) findViewById(R.id.horseMode);
+        nameMode.setText(horse.getMode());
 
-        TextView nameText = (TextView) findViewById(R.id.horseName);
-        nameText.setText(horse.getName());
+        TextView nameOneMode = (TextView) findViewById(R.id.horseOneMode);
+        nameOneMode.setText(horse.getOneMode());
 
-        TextView nameText = (TextView) findViewById(R.id.horseName);
-        nameText.setText(horse.getName());
+        TextView nameClub = (TextView) findViewById(R.id.horseClub);
+        nameClub.setText(horse.getClub());
+
+        TextView nameUpdate = (TextView) findViewById(R.id.horseUpdate);
+        nameUpdate.setText(horse.getUpdate());
+
+        TextView nameId = (TextView) findViewById(R.id.horseId);
+        nameId.setText(String.valueOf(horse.getId()));
+
+        Button button = (Button) findViewById(R.id.insertButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String id = String.valueOf(horse.getId());
+                boolean flag = Util.putMyHorse(getApplicationContext(), id);
+
+                String message = "";
+                if(flag) {
+                    message = "登録しました";
+                } else {
+                    message = "登録できません";
+                }
+
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

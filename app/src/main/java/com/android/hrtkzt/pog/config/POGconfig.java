@@ -116,5 +116,5 @@ public class POGconfig {
         return UPDATE_FLAG;
     }
 
-    private static final boolean UPDATE_FLAG = false;
+    private static final boolean UPDATE_FLAG = true;
 }
